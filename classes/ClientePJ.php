@@ -3,41 +3,19 @@
 require_once 'ClienteNota.php';
 require_once 'ClienteEnderecoCobranca.php';
 
-class Cliente implements ClienteNota, ClienteEnderecoCobranca  {
+class ClientePJ extends Cliente implements ClienteNota, ClienteEnderecoCobranca {
 
-    public $id;
-    public $tipo;
-    public $cpf;
-    public $nome;
-    public $endereco;
-    public $numero;
-    public $cep;
-    public $bairro;
-    public $cidade;
-    public $uf;
-    public $email;
-    public $telefone;
-    public $celular;
+    public $cnpj;
+    public $razaoSocial;
 
-    //interface Nota
-    public $nota;
-
-    //interface Cobranca
-    public $enderecoCobranca;
-    public $numeroCobranca;
-    public $cepCobranca;
-    public $bairroCobranca;
-    public $cidadeCobranca;
-    public $ufCobranca;
-
-    public function __construct($id, $tipo, $nome, $cpf, $endereco, $numero,
+    public function __construct($id, $tipo, $razaoSocial, $cnpj, $endereco, $numero,
                                 $cep, $bairro, $cidade, $uf, $email, $telefone, $celular, $nota) {
 
         //criar um construtor inicial para atribuir valores
         $this->id  = $id;
         $this->tipo = $tipo;
-        $this->cpf = $cpf;
-        $this->nome = $nome;
+        $this->razaoSocial = $razaoSocial;
+        $this->cnpj = $cnpj;
         $this->endereco = $endereco;
         $this->numero = $numero;
         $this->cep = $cep;
@@ -48,24 +26,18 @@ class Cliente implements ClienteNota, ClienteEnderecoCobranca  {
         $this->telefone = $telefone;
         $this->celular = $celular;
 
-        $this->nota = $nota;
+        //atribuindo valores do CNPJ e Razao Social ao campo CPF e Nome (para aproveitar listagem)
+        $this->setCpf($cnpj);
+        $this->setNome($razaoSocial);
 
-    }
+        //recuperando valores
+        $this->cpf = $this->getCpf();
+        $this->nome = $this->getNome();
 
-    public function setNome($nome) {
-        $this->nome = $nome;
-    }
+        //definindo quantas estrelas o cliente possui
+        $this->setNota($nota);
 
-    public function setCpf($cpf) {
-        $this->cpf = $cpf;
-    }
 
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function getCpf() {
-        return $this->cpf;
     }
 
     #interface Classificacao
