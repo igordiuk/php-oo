@@ -1,5 +1,12 @@
 <?php
 
+//funcao autoload definida pelo pessoal do curso para corrigir problema de path
+define("CLASS_DIR", __DIR__ . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR);
+spl_autoload_register(function($class) {
+    $className = CLASS_DIR . str_replace("\\", DIRECTORY_SEPARATOR, $class) . ".php";
+    include($className);
+});
+
 #lista paginas do projeto em um array simples
 $pages = array("home", "cliente", "sobre", "error");
 
@@ -77,16 +84,13 @@ $content = buscar_rota($pages);
 
 <body>
 
-<?php require_once('menu.php'); ?>
+<?php require_once('src/igordiuk/menu.php'); ?>
 
 <div class="container">
 
-    <?php require_once($content); ?>
+    <?php require_once('src/igordiuk/'.$content); ?>
 
 </div> <!-- /container -->
-
-
-
 
 
 <!-- Le javascript-->
